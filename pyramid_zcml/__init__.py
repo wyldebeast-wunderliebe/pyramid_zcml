@@ -21,6 +21,7 @@ from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authentication import RemoteUserAuthenticationPolicy
 from pyramid.authentication import RepozeWho1AuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.asset import resolve_asset_spec
 from pyramid.config import Configurator
 from pyramid.exceptions import ConfigurationError
 from pyramid.asset import asset_spec_from_abspath
@@ -825,7 +826,7 @@ def load_zcml(self, spec='configure.zcml', lock=threading.Lock(), features=()):
     The ``features`` argument can be any iterable of strings. These are useful
     for conditionally including or excluding parts of a :term:`ZCML` file.
     """
-    package_name, filename = self._split_spec(spec)
+    package_name, filename = resolve_asset_spec(spec, self.package_name)
     if package_name is None: # absolute filename
         package = self.package
     else:
